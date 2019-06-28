@@ -1,24 +1,24 @@
 
 
 
-require "#{__dir__}/lib/value_generator"
+require "#{__dir__}/lib/insert_value"
 
 class InsertSqlGenerator
+  
+  include InsertValue
 
   def initialize(yaml_path=nil)
     
     # 以下の値はymlから読み込み
-    @size = 10
-    @bulk = 3
-    @table = 'sample'
+    @size   = 10
+    @bulk   = 3
+    @table  = 'sample'
     @fields = {
       id: 'int:autoincrement', 
       number_field_a: 'int', 
       number_field_b: 'int:1000000:1999999', 
       character_field: 'string',
     }
-
-    @value_generator = ValueGenerator.new(@fields)
     @path_output = "#{__dir__}/out/#{@table}.sql"
 
   end
@@ -28,7 +28,8 @@ class InsertSqlGenerator
     File.open(@path_output, 'w') do |file|
       buffer = []
       @size.times do |i|
-        buffer.push(@value_generator.values(i))
+        # buffer.push(@value_generator.values(i))
+        buffer.push(values(i))
         if buffer.size >= @bulk
           file.write(generate_query(buffer))
           buffer = []

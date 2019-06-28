@@ -4,17 +4,14 @@
 #
 # Handling many kind of values
 #
-class ValueGenerator
+module InsertValue
   
   DEFAULT_INT_VALUE_RANGE   = 10
   DEFAULT_MAX_STRING_LENGTH = 10
 
-  def initialize(field_definitions)
-    @fields = field_definitions
-  end
-  
   #
   # removing case statement may best, is it?
+  # add type you want here
   #
   def values(current_row)
     values = @fields.values.map do |definition|
