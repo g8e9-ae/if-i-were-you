@@ -28,7 +28,6 @@ class InsertSqlGenerator
     File.open(@path_output, 'w') do |file|
       buffer = []
       @size.times do |i|
-        # buffer.push(@value_generator.values(i))
         buffer.push(values(i))
         if buffer.size >= @bulk
           file.write(generate_query(buffer))
