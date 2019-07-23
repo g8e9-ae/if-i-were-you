@@ -3,19 +3,21 @@
 
 class MultiThreading
   
-  def initialize(thread_size: 1, type:nil)
-    @thread_size = thread_size
+  def initialize(thread_size: 1, repeat_times: 1, type:nil)
+    @thread_size  = thread_size
+    @repeat_times = repeat_times
     @type = type if type
   end
 
   def do_main
-    threads = @thread_size.times.map do |i|
-      Thread.new do
-        build_worker(i).do_task
+    @repeat_times.times do |repeat_time|
+      threads = @thread_size.times.map do |i|
+        Thread.new do
+          build_worker("#{repeat_time}-#{i}").do_task
+        end
       end
+      threads.each do |thread| thread.join end
     end
-
-    threads.each do |thread| thread.join end
   end
 
   private
@@ -53,6 +55,6 @@ class Worker_A < Worker; end
 class Worker_B < Worker; end
 
 if __FILE__ == $0
-  MultiThreading.new(thread_size: 10).do_main
+  MultiThreading.new(thread_size: 5, repeat_times: 2).do_main
 end
 
