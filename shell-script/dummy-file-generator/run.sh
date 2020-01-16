@@ -16,6 +16,6 @@ if [[ ! -e $output_dir ]]; then
 fi
 
 for i in `seq ${number_of_days}`; do
-  date_string=`date -v+${i}d +'%Y%m%d' `
+  date_string=`date -v+${i}d +'%Y%m%d'`
   touch $output_dir/$date_string.txt
 done
